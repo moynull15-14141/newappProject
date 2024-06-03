@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:newapp/login_si/login.dart';
-import 'package:newapp/widgets/sign_login_box.dart';
+import 'package:newapp/widgets/signBox.dart';
 
 class signUp extends StatefulWidget {
   signUp({super.key});
@@ -17,6 +17,9 @@ class _signUpState extends State<signUp> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const SizedBox(
+              height: 40,
+            ),
             Align(
               alignment: Alignment.center,
               child: SignBox(boxName: "Create an Acount"),

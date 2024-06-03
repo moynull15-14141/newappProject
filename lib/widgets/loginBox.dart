@@ -51,6 +51,15 @@ class _LoginBoxState extends State<LoginBox> {
       height: 390,
       width: 310,
       decoration: const BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Color.fromARGB(
+                  73, 0, 0, 0), // Shadow color (with transparency)
+              offset: Offset(1.0, 1.0), // Offset the shadow (x, y)
+              blurRadius: 30.0, // Blur radius of the shadow
+              spreadRadius: 1.0, // Spread radius of the shadow (optional)
+            ),
+          ],
           borderRadius: BorderRadius.all(
             Radius.circular(10),
           ),
@@ -107,13 +116,30 @@ class _LoginBoxState extends State<LoginBox> {
             ),
           ),
           const SizedBox(
-            height: 20,
+            height: 100,
           ),
+
+          //// new elevated buton style syntext update . remember it and dont forgate.
           ElevatedButton(
+            style: ButtonStyle(
+              fixedSize: WidgetStateProperty.all<Size>(Size(200.0, 50.0)),
+              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                      5), // Set your desired radius value here (e.g., 10.0, 20.0)
+                ),
+              ),
+              backgroundColor:
+                  WidgetStateProperty.all(Color.fromARGB(255, 7, 123, 130)),
+            ),
             onPressed: () {
               loginUser();
             },
-            child: Text('Login'),
+            child: const Text(
+              'Login',
+              style: TextStyle(
+                  color: Colors.white, fontFamily: 'Font2', fontSize: 20),
+            ),
           ),
         ],
       ),

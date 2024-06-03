@@ -8,6 +8,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+          inputDecorationTheme: InputDecorationTheme(
+            border: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              borderSide: const BorderSide(
+                  color: Colors.black,
+                  width: 1.0), // Set border color and width
+            ),
+            fillColor: Colors.grey[200], // Set fill color (optional)
+          ),
+          iconTheme: const IconThemeData(
+            color: Color.fromARGB(255, 1, 60, 64),
+          ),
           bottomNavigationBarTheme: const BottomNavigationBarThemeData(
             selectedIconTheme: IconThemeData(size: 26),
             unselectedIconTheme: IconThemeData(size: 20),

@@ -17,6 +17,9 @@ class _LoginState extends State<Login> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          const SizedBox(
+            height: 30,
+          ),
           Align(
             alignment: Alignment.center,
             child: LoginBox(boxName: "Login"),
