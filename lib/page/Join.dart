@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:newapp/live/LivePage.dart';
 import 'package:newapp/widgets/menu.dart';
 
 class Join extends StatefulWidget {
@@ -11,10 +12,11 @@ class Join extends StatefulWidget {
 }
 
 class _JoinState extends State<Join> {
+  bool ishost = false;
   final _formKey = GlobalKey<FormState>(); // For form validation
   final subjectController = TextEditingController(); // For subject input
   final teacherNameController = TextEditingController(); //
-
+  final RoomIdController = TextEditingController();
   final CollectionReference fetchdataLiveClass =
       FirebaseFirestore.instance.collection('liveclassdata');
 
@@ -77,7 +79,7 @@ class _JoinState extends State<Join> {
             ),
           ),
           const SizedBox(
-            height: 30,
+            height: 20,
           ),
           Text(
             "Live List",
@@ -140,8 +142,37 @@ class _JoinState extends State<Join> {
             TextFormField(
               cursorColor: Colors.white,
               style: const TextStyle(color: Colors.white),
+              controller: RoomIdController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(5.0),
+                  ),
+                ),
+                label: Text("Room ID"),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter Room Id.';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            TextFormField(
+              cursorColor: Colors.white,
+              style: const TextStyle(color: Colors.white),
               controller: subjectController, // Bind subject input
               decoration: const InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  borderSide: BorderSide(
+                    color: Color.fromARGB(255, 8, 140, 147), // Set border color
+                    width: 1.0, //
+                  ),
+                ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   borderSide: BorderSide(
@@ -188,6 +219,29 @@ class _JoinState extends State<Join> {
                 }
                 return null;
               },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                Text(
+                  'Is Host ?',
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      fontFamily: 'Font1',
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(width: 4),
+                Switch(
+                    value: ishost,
+                    onChanged: (val) {
+                      setState(() {
+                        ishost = val;
+                      });
+                    })
+              ],
             ),
           ],
         ),
@@ -239,11 +293,21 @@ class _JoinState extends State<Join> {
 
               // Show success message and close dialog
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
+                const SnackBar(
                   content: Text('Live class created successfully!'),
                 ),
               );
-              Navigator.pop(context);
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+                builder: (context) {
+                  return LivePage(
+                    roomID: RoomIdController.text,
+                    isHost: ishost,
+                    userId:
+                        teacherNameController.text.replaceAll(' ', ' ').trim(),
+                    userName: teacherNameController.text,
+                  );
+                },
+              ), (route) => false);
             }
           },
           child: const Text(
@@ -262,6 +326,7 @@ class _JoinState extends State<Join> {
     super.dispose();
     subjectController.dispose();
     teacherNameController.dispose();
+    RoomIdController.dispose();
   }
 }
 
