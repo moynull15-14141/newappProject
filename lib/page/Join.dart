@@ -22,114 +22,119 @@ class _JoinState extends State<Join> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(14.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              menu(),
-            ],
-          ),
-          const SizedBox(
-            height: 12,
-          ),
-          InkWell(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return _buildCreateLiveClassDialog(context);
-                },
-              );
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(14.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                menu(),
+              ],
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            InkWell(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return _buildCreateLiveClassDialog(context);
+                  },
+                );
 
-              print('Create a Live Class');
-            },
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 241, 255, 186),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
+                print('Create a Live Class');
+              },
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 241, 255, 186),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
+                  ),
                 ),
-              ),
-              height: 100,
-              width: 345,
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Create a Live Class\nLet's Start",
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontFamily: 'Font1',
-                          fontSize: 28,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    const Icon(
-                      Icons.arrow_forward_ios_sharp,
-                      size: 18,
-                    ),
-                  ],
+                height: 100,
+                width: 345,
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Create a Live Class\nLet's Start",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            fontFamily: 'Font1',
+                            fontSize: 28,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      const Icon(
+                        Icons.arrow_forward_ios_sharp,
+                        size: 18,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Text(
-            "Live List",
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                fontFamily: 'Font1', fontSize: 26, fontWeight: FontWeight.w600),
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          Container(
-              height: 300,
-              width: 345,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              "Live List",
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  fontFamily: 'Font1',
+                  fontSize: 26,
+                  fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            Container(
+                height: 300,
+                width: 345,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
+                  ),
+                  color: Color.fromARGB(255, 241, 255, 186),
                 ),
-                color: Color.fromARGB(255, 241, 255, 186),
-              ),
-              child: StreamBuilder<QuerySnapshot>(
-                stream: fetchdataLiveClass.snapshots(),
-                builder: (context, snapshort) {
-                  if (!snapshort.hasData) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  var document = snapshort.data!.docs;
-                  return ListView.builder(
-                    itemCount: document.length,
-                    itemBuilder: (context, Index) {
-                      var data = document[Index].data() as Map<String, dynamic>;
-                      var subject = data['subject'];
-                      var teacherName = data['teacherName'];
-                      // return Text(subject);
-                      return ListTile(
-                        title: Text(subject ?? "No subject"),
-                        subtitle: Text(teacherName ?? "No Teacher"),
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: fetchdataLiveClass.snapshots(),
+                  builder: (context, snapshort) {
+                    if (!snapshort.hasData) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
                       );
-                    },
-                  );
-                },
-              )),
-        ],
+                    }
+                    var document = snapshort.data!.docs;
+                    return ListView.builder(
+                      itemCount: document.length,
+                      itemBuilder: (context, index) {
+                        var data =
+                            document[index].data() as Map<String, dynamic>;
+                        var subject = data['subject'];
+                        var teacherName = data['teacherName'];
+                        // return Text(subject);
+                        return ListTile(
+                          title: Text(subject ?? "No subject"),
+                          subtitle: Text(teacherName ?? "No Teacher"),
+                        );
+                      },
+                    );
+                  },
+                )),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildCreateLiveClassDialog(BuildContext context) {
     return AlertDialog(
-      backgroundColor: Color.fromARGB(255, 1, 60, 64),
+      backgroundColor: const Color.fromARGB(255, 1, 60, 64),
       title: const Text(
         'Create a Live Class',
         style: TextStyle(color: Colors.white, fontFamily: 'Font1'),
@@ -249,15 +254,14 @@ class _JoinState extends State<Join> {
       actions: [
         ElevatedButton(
           style: ButtonStyle(
-            fixedSize: WidgetStateProperty.all<Size>(Size(100.0, 40.0)),
+            fixedSize: WidgetStateProperty.all<Size>(const Size(100.0, 40.0)),
             shape: WidgetStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                    5), // Set your desired radius value here (e.g., 10.0, 20.0)
+                borderRadius: BorderRadius.circular(5),
               ),
             ),
             backgroundColor:
-                WidgetStateProperty.all(Color.fromARGB(255, 7, 123, 130)),
+                WidgetStateProperty.all(const Color.fromARGB(255, 7, 123, 130)),
           ),
           onPressed: () => Navigator.pop(context),
           child: const Text(
@@ -268,15 +272,14 @@ class _JoinState extends State<Join> {
         ),
         ElevatedButton(
           style: ButtonStyle(
-            fixedSize: WidgetStateProperty.all<Size>(Size(100.0, 40.0)),
+            fixedSize: WidgetStateProperty.all<Size>(const Size(100.0, 40.0)),
             shape: WidgetStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                    5), // Set your desired radius value here (e.g., 10.0, 20.0)
+                borderRadius: BorderRadius.circular(5),
               ),
             ),
             backgroundColor:
-                WidgetStateProperty.all(Color.fromARGB(255, 7, 123, 130)),
+                WidgetStateProperty.all(const Color.fromARGB(255, 7, 123, 130)),
           ),
           onPressed: () async {
             // Form validation
@@ -288,7 +291,6 @@ class _JoinState extends State<Join> {
               await fetchdataLiveClass.add({
                 'subject': subject,
                 'teacherName': teacherName,
-                // Add any other desired fields
               });
 
               // Show success message and close dialog
@@ -322,7 +324,6 @@ class _JoinState extends State<Join> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     subjectController.dispose();
     teacherNameController.dispose();

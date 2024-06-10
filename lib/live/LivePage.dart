@@ -31,42 +31,55 @@ class _LivePageState extends State<LivePage> {
         userID: widget.userId,
         userName: widget.userName,
         roomID: widget.roomID,
-        events: ZegoUIKitPrebuiltLiveAudioRoomEvents(onLeaveConfirmation: (
-          ZegoLiveAudioRoomLeaveConfirmationEvent event,
+        events: ZegoUIKitPrebuiltLiveAudioRoomEvents(
+          onLeaveConfirmation: (
+            ZegoLiveAudioRoomLeaveConfirmationEvent event,
 
-          /// defaultAction to return to the previous page
-          Future<bool> Function() defaultAction,
-        ) async {
-          return await showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                backgroundColor: Colors.blue[900]!.withOpacity(0.9),
-                title: const Text("This is your custom dialog",
-                    style: TextStyle(color: Colors.white70)),
-                content: const Text("You can customize this dialog as you like",
-                    style: TextStyle(color: Colors.white70)),
-                actions: [
-                  ElevatedButton(
-                    child: const Text("Cancel",
-                        style: TextStyle(color: Color.fromARGB(179, 0, 0, 0))),
-                    onPressed: () => Navigator.of(context).pop(false),
-                  ),
-                  ElevatedButton(
-                    child: const Text("Exit"),
-                    onPressed: () => Navigator.of(context).pop(true),
-                  ),
-                ],
-              );
-            },
-          );
-        }),
+            /// defaultAction to return to the previous page
+            Future<bool> Function() defaultAction,
+          ) async {
+            return await showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  backgroundColor: Colors.blue[900]!.withOpacity(0.9),
+                  title: const Text("This is your custom dialog",
+                      style: TextStyle(color: Colors.white70)),
+                  content: const Text(
+                      "You can customize this dialog as you like",
+                      style: TextStyle(color: Colors.white70)),
+                  actions: [
+                    ElevatedButton(
+                      child: const Text("Cancel",
+                          style:
+                              TextStyle(color: Color.fromARGB(179, 0, 0, 0))),
+                      onPressed: () => Navigator.of(context).pop(false),
+                    ),
+                    ElevatedButton(
+                      child: const Text("Exit"),
+                      onPressed: () {
+                        Navigator.of(context).pop(true);
+                        print("ok exit");
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => const Join(),
+                        //   ),
+                        // );
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+        ),
         config: widget.isHost
             ? ZegoUIKitPrebuiltLiveAudioRoomConfig.host()
             : ZegoUIKitPrebuiltLiveAudioRoomConfig.audience()
           ..background = Container(
-            color: Color.fromARGB(255, 1, 60, 64),
+            color: const Color.fromARGB(255, 1, 60, 64),
           ),
       ),
     );
